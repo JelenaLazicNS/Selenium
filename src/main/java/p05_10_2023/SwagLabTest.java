@@ -2,20 +2,22 @@ package p05_10_2023;
 
 
 import io.github.bonigarcia.wdm.WebDriverManager;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.*;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.*;
 import org.testng.Assert;
+import p02_10_2023.Helper;
 
 import java.rmi.server.ExportException;
 import java.time.Duration;
+import java.io.IOException;
+import java.util.List;
 
 public class SwagLabTest {
     private WebDriver driver;
@@ -23,7 +25,7 @@ public class SwagLabTest {
     private String baseUrl = "https://www.saucedemo.com/";
 
     @BeforeClass
-    public void setup(){
+    public void setup() {
         WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
         wait = new WebDriverWait(driver, Duration.ofSeconds(10));
@@ -32,12 +34,12 @@ public class SwagLabTest {
     }
 
     @BeforeMethod
-    public void beforeMethod (){
+    public void beforeMethod() {
         driver.navigate().to(baseUrl);
     }
 
-    @Test (priority =1, retryAnalyzer = SwagLabsRetry.class)
-    public void verifyErrorIsDisplayedWhenUserNameIsMissing(){
+    @Test(priority = 1, retryAnalyzer = SwagLabsRetry.class)
+    public void verifyErrorIsDisplayedWhenUserNameIsMissing() {
         driver.findElement(By.id("login-button")).click();
 
         wait.
@@ -48,7 +50,7 @@ public class SwagLabTest {
                                 "Username is required"));
     }
 
-    @Test (priority = 2, retryAnalyzer = SwagLabsRetry.class)
+    @Test(priority = 2, retryAnalyzer = SwagLabsRetry.class)
     public void verifyErrorIsDisplayedWhenPasswordIsMissing() {
         String username = "standard_user";
 
@@ -62,8 +64,9 @@ public class SwagLabTest {
                                 By.cssSelector(".error-message-container h3"),
                                 "Password is required"));
     }
-    @Test (priority = 3, retryAnalyzer = SwagLabsRetry.class)
-    public void verifyErrorIsDisplayedWhenCredentialsAreWrong(){
+
+    @Test(priority = 3, retryAnalyzer = SwagLabsRetry.class)
+    public void verifyErrorIsDisplayedWhenCredentialsAreWrong() {
         String username = "standard_user";
         String password = "invalidpassword";
 
@@ -93,8 +96,8 @@ public class SwagLabTest {
                 "Error message for locked out user should be present");
     }
 
-    @Test (priority = 5, retryAnalyzer = SwagLabsRetry.class)
-    public void verifySuccessfulLogin(){
+    @Test(priority = 5, retryAnalyzer = SwagLabsRetry.class)
+    public void verifySuccessfulLogin() {
         String username = "standard user";
         String password = "secret_sauce";
 
@@ -113,7 +116,7 @@ public class SwagLabTest {
                 ExpectedConditions.visibilityOfElementLocated(
                         By.className("bm-menu-wrap")));
 
-        boolean loginFormExists=
+        boolean loginFormExists =
                 !driver.findElements(By.className("login_wrapper")).isEmpty();
 
         Assert.assertTrue(
@@ -243,17 +246,108 @@ public class SwagLabTest {
                 "Thank you for your order!", "Message should be equal to: Thank you for your order!");
     }
 
+    @Test(priority = 10, retryAnalyzer = SwagLabsRetry.class)
+    public void validateSocialLinksInFooter() throws IOException {
+        String username = "standard_user";
+        String password = "secret_sauce";
+        driver.findElement(By.id("user-name")).sendKeys(username);
+        driver.findElement(By.id("password")).sendKeys(password);
+        driver.findElement(By.id("login-button")).click();
+        Assert.assertEquals(driver.getCurrentUrl(), baseUrl + "inventory.html", "Should be redirected to inventory page after login");
+        WebElement footer = driver.findElement(By.className("footer"));
+        new Actions(driver)
+                .scrollToElement(footer)
+                .perform();
 
-    @AfterMethod
-    public void afterMethod(){
-        driver.manage().deleteAllCookies(); //izloguje
-        ((JavascriptExecutor)driver).executeScript("window.localStorage.clear();");
+        String twitterUrl = driver.findElement(By.cssSelector(".social_twitter>a")).getAttribute("href");
+        String facebookUrl = driver.findElement(By.cssSelector(".social_facebook>a")).getAttribute("href");
+        String linkedinUrl = driver.findElement(By.cssSelector(".social_linkedin>a")).getAttribute("href");
+
+        int statusFacebook = Helper.getHTTPResponseStatusCode(facebookUrl);
+        int statusLinkedin = Helper.getHTTPResponseStatusCode(linkedinUrl);
+        int statusTwitter = Helper.getHTTPResponseStatusCode(twitterUrl);
+        System.out.println(statusFacebook);
+
+        Assert.assertEquals(statusFacebook, 200, "Status for Facebook is not 200");
+        Assert.assertEquals(statusTwitter, 200, "Status for Twitter is not 200");
+        Assert.assertEquals(statusLinkedin, 200, "Status for Linkedin is not 200");
     }
-    @AfterClass
-    public void afterClass (){
-        driver.quit();
+
+    @Test(priority = 11, retryAnalyzer = SwagLabsRetry.class)
+    public void testDefaultNameSort() {
+        String username = "standard_user";
+        String password = "secret_sauce";
+        driver.findElement(By.id("user-name")).sendKeys(username);
+        driver.findElement(By.id("password")).sendKeys(password);
+        driver.findElement(By.id("login-button")).click();
+        Assert.assertEquals(driver.getCurrentUrl(), baseUrl + "inventory.html",
+                "Should be redirected to inventory page after login");
+        List<WebElement> productNames = driver.findElements(By.className("inventory_item_name"));
+        String previous = "";
+
+        for (int i = 0; i < productNames.size(); i++) {
+            Assert.assertFalse(productNames.get(i).getText().compareTo(previous) < 0,
+                    "Products are not in alphabetical order");
+            previous = productNames.get(i).getText();
+        }
     }
 
+    @Test(priority = 12, retryAnalyzer = SwagLabsRetry.class)
+    public void testInvertNamedSort() {
+        String username = "standard_user";
+        String password = "secret_sauce";
+        driver.findElement(By.id("user-name")).sendKeys(username);
+        driver.findElement(By.id("password")).sendKeys(password);
+        driver.findElement(By.id("login-button")).click();
+        Assert.assertEquals(driver.getCurrentUrl(), baseUrl + "inventory.html",
+                "Should be redirected to inventory page after login");
+
+        Select sortDropdown = new Select(driver.findElement(By.className("product_sort_container")));
+        sortDropdown.equals("za");
+
+        List<WebElement> productNames = driver.findElements(By.className("inventory_item_name"));
+        String previous = productNames.get(0).getText();
+        for (int i = 0; i < productNames.size(); i++) {
+            Assert.assertFalse(productNames.get(i).getText().compareTo(previous) > 0,
+                    "Products are not in reverse alphabetical order");
+            previous = productNames.get(i).getText();
+        }
+    }
+    @Test(priority = 13, retryAnalyzer = SwagLabsRetry.class)
+    public void testSortPriceLowHigh() {
+
+        String username = "standard_user";
+        String password = "secret_sauce";
+
+        driver.findElement(By.id("user-name")).sendKeys(username);
+        driver.findElement(By.id("password")).sendKeys(password);
+        driver.findElement(By.id("login-button")).click();
+
+        Assert.assertEquals(driver.getCurrentUrl(), baseUrl + "inventory.html",
+                "Should be redirected to inventory page after login");
+        Select sortDropdown = new Select(driver.findElement(By.className("product_sort_container")));
+        sortDropdown.equals("lohi");
+
+        List<WebElement> productPrices = driver.findElements(By.className("inventory_item_price"));
+        double previous = 0;
+        for (int i = 0; i < productPrices.size(); i++) {
+            double price = Double.parseDouble(productPrices.get(i).getText().substring(1));
+            Assert.assertTrue(price >= previous, "Prices are not low to high");
+            previous = price;
+        }
 
 
-}
+      //  @AfterMethod
+       // public void afterMethod () {
+            driver.manage().deleteAllCookies(); //izloguje
+            ((JavascriptExecutor) driver).executeScript("window.localStorage.clear();");
+        }
+
+      //  @AfterClass
+        public void afterClass () {
+            driver.quit();
+        }
+
+
+    }
+
