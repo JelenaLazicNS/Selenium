@@ -271,6 +271,18 @@ public class SwagLabsTest extends BasicTest {
                 "The state of web app should be reseted.");
 
     }
+    @Test
+    public void verifyIfTheEkisButtonIsPresented(){
+        login.clearAndTypeUsername(username);
+        login.clearAndTypePassword(password);
+        login.clickOnLoginButton();
+
+        topNav.clickOnCartButton();
+        topNav.clickOnMenuButton();
+
+        Assert.assertTrue(leftNav.getEkisButton().isDisplayed(),
+                "Ekis button should be visible.");
+    }
 
 
 
