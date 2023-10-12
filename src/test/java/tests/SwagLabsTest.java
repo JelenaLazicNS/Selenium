@@ -414,6 +414,17 @@ public class SwagLabsTest extends BasicTest {
         Assert.assertTrue(driver.getCurrentUrl().contains("inventory.html"),
                 "User should be redirected to the inventory page");
     }
+    @Test
+    public void verifyIfTheCheckoutButtonIsPresented(){
+        login.clearAndTypeUsername(username);
+        login.clearAndTypePassword(password);
+        login.clickOnLoginButton();
+
+        inventory.clickOnAddToCartButton();
+        topNav.clickOnCartButton();
+
+        Assert.assertTrue(itemList.getCheckoutButton().isDisplayed(), "Checkout button should be visible.");
+    }
 
 
 
