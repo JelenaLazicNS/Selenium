@@ -35,4 +35,7 @@ public class ItemListPage extends BasicPage {
     public WebElement getRemoveButton(int index){
         return getSingleItem(index).findElement(By.tagName("button"));
     }
+    public void clickOnRemoveButton(int index){
+        getSingleItem(index).findElement(By.tagName("button")).click();
+    }
 }
