@@ -18,5 +18,9 @@ public class FooterPage  extends BasicPage{
     public WebElement getSingleSocial(int index){
         return getSocialList().get(index);
     }
+    public void clickOnSocial(int index){
+        getSingleSocial(index).findElement(By.tagName("a")).click();
+    }
+
 
 }
