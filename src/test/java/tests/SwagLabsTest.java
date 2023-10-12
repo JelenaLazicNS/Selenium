@@ -131,6 +131,16 @@ public class SwagLabsTest extends BasicTest {
                 "Title in header should be Swag Labs.");
 
     }
+    @Test
+    public void verifyIfTheCartIconIsPresented(){
+        login.clearAndTypeUsername(username);
+        login.clearAndTypePassword(password);
+        login.clickOnLoginButton();
+
+        topNav.clickOnCartButton();
+        Assert.assertTrue(topNav.getCartLink().isDisplayed(), "Cart icon should be presented.");
+    }
+
 
 }
 
