@@ -257,6 +257,20 @@ public class SwagLabsTest extends BasicTest {
                 "User should be redirected to log in page.");
 
     }
+    @Test
+    public void verifyIfResetAppStateIsWorking(){
+        login.clearAndTypeUsername(username);
+        login.clearAndTypePassword(password);
+        login.clickOnLoginButton();
+
+        topNav.clickOnCartButton();
+        topNav.clickOnMenuButton();
+
+        leftNav.clickOnMenuOption(3);
+        Assert.assertEquals(topNav.getCartText(), "0",
+                "The state of web app should be reseted.");
+
+    }
 
 
 
