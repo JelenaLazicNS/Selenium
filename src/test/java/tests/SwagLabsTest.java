@@ -1,5 +1,6 @@
 package tests;
 
+import Pages.FooterPage;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -439,6 +440,29 @@ public class SwagLabsTest extends BasicTest {
         Assert.assertTrue(driver.getCurrentUrl().contains("checkout-step-one.html"),
                 "User should be redirected to checkout page.");
     }
+    @Test
+    public void verifyIfTheTwitterButtonIsPresented(){
+        login.clearAndTypeUsername(username);
+        login.clearAndTypePassword(password);
+        login.clickOnLoginButton();
+
+        topNav.clickOnCartButton();
+
+        FooterPage footer = null;
+        Assert.assertTrue(footer.getSingleSocial(0).isDisplayed(), "Twitter icon should be visible");
+    }
+    @Test
+    public void verifyIfTheFacebookButtonIsPresented(){
+        login.clearAndTypeUsername(username);
+        login.clearAndTypePassword(password);
+        login.clickOnLoginButton();
+
+        topNav.clickOnCartButton();
+
+        FooterPage footer = null;
+        Assert.assertTrue(footer.getSingleSocial(1).isDisplayed(), "Facebook icon should be visible");
+    }
+
 
 
 
