@@ -41,4 +41,7 @@ public class ItemListPage extends BasicPage {
     public WebElement getContinueShoppingButton(){
         return driver.findElement(By.id("continue-shopping"));
     }
+    public void clickOnContinueShoppingButton(){
+        getContinueShoppingButton().click();
+    }
 }
