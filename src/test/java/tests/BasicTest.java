@@ -1,8 +1,5 @@
 package tests;
-import Pages.InventoryPage;
-import Pages.LeftNavMenuPage;
-import Pages.LoginPage;
-import Pages.TopNavMenuPage;
+import Pages.*;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -31,6 +28,7 @@ public abstract class BasicTest {
     protected InventoryPage inventory;
 
     protected TopNavMenuPage topNav;
+    protected ItemListPage itemList;
 
     @BeforeClass
     public void setup(){
@@ -45,6 +43,7 @@ public abstract class BasicTest {
         leftNav = new LeftNavMenuPage(driver,wait);
         inventory = new InventoryPage(driver,wait);
         topNav = new TopNavMenuPage(driver,wait);
+        itemList = new ItemListPage(driver, wait);
     }
 
     @BeforeMethod
