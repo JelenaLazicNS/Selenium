@@ -120,6 +120,17 @@ public class SwagLabsTest extends BasicTest {
                 "Page title should be Swag Labs.");
 
     }
+    @Test
+    public void verifyTheTitleInHeader(){
+        login.clearAndTypeUsername(username);
+        login.clearAndTypePassword(password);
+        login.clickOnLoginButton();
+
+        topNav.clickOnCartButton();
+        Assert.assertEquals(topNav.getHeaderTitle(), "Swag Labs",
+                "Title in header should be Swag Labs.");
+
+    }
 
 }
 
