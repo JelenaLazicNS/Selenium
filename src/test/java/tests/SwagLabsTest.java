@@ -485,6 +485,18 @@ public class SwagLabsTest extends BasicTest {
         Assert.assertEquals(driver.getCurrentUrl(), "https://twitter.com/saucelabs",
                 "User should be redirected to sauce labs twitter account.");
     }
+    @Test
+    public void verifyIfTheFacebookButtonIsWorking(FooterPage footer){
+        login.clearAndTypeUsername(username);
+        login.clearAndTypePassword(password);
+        login.clickOnLoginButton();
+
+        topNav.clickOnCartButton();
+        footer.clickOnSocial(1);
+
+        Assert.assertEquals(driver.getCurrentUrl(), "https://www.facebook.com/saucelabs",
+                "User should be redirected to sauce labs facebook account.");
+    }
 
 }
 
