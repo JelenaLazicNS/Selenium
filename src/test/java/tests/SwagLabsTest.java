@@ -5,6 +5,8 @@ import org.testng.annotations.Test;
 
 public class SwagLabsTest extends BasicTest {
 
+    private Object subHeader;
+
     @Test
     public void verifyErrorIsDisplayedWhenUsernameIsMissing() {
 
@@ -202,6 +204,19 @@ public class SwagLabsTest extends BasicTest {
                 "Number in the cart icon should be equivalent to the total number of added items");
 
     }
+    @Test
+    public void verifyTheTotalNumberOfMenuOptions(){
+        login.clearAndTypeUsername(username);
+        login.clearAndTypePassword(password);
+        login.clickOnLoginButton();
+
+        topNav.clickOnCartButton();
+        topNav.clickOnMenuButton();
+        Assert.assertEquals(leftNav.getNumberOfMenuOptions(), 4,
+                "There should be 4 options in menu.");
+    }
+
+
 
 
 }
