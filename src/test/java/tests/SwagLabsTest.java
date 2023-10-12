@@ -350,6 +350,20 @@ public class SwagLabsTest extends BasicTest {
 
         itemList.clickOnItemTitle(0);
     }
+    @Test
+    public void verifyIfTheItemsTitleIsWorking(){
+        login.clearAndTypeUsername(username);
+        login.clearAndTypePassword(password);
+        login.clickOnLoginButton();
+
+        inventory.clickOnAddToCartButton();
+        topNav.clickOnCartButton();
+
+        itemList.clickOnItemTitle(0);
+        Assert.assertTrue(driver.getCurrentUrl().contains("/inventory-item"),
+                "User should be redirected to item's page.");
+    }
+
 
 
 
