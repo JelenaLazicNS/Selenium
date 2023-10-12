@@ -179,6 +179,17 @@ public class SwagLabsTest extends BasicTest {
         topNav.clickOnMenuButton();
         leftNav.waitForMenuToBeVisible();
     }
+    @Test
+    public void verifyIfTheCartIconIsWorking(){
+        login.clearAndTypeUsername(username);
+        login.clearAndTypePassword(password);
+        login.clickOnLoginButton();
+
+        topNav.clickOnCartButton();
+        topNav.clickOnCartButton();
+        Assert.assertTrue(driver.getCurrentUrl().equals("https://www.saucedemo.com/cart.html"),
+                "User should be redirected to cart page.");
+    }
 
 }
 
