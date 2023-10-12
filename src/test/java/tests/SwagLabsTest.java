@@ -215,6 +215,21 @@ public class SwagLabsTest extends BasicTest {
         Assert.assertEquals(leftNav.getNumberOfMenuOptions(), 4,
                 "There should be 4 options in menu.");
     }
+    @Test
+    public void verifyIfAllItemsOptionIsWorking(){
+        login.clearAndTypeUsername(username);
+        login.clearAndTypePassword(password);
+        login.clickOnLoginButton();
+
+        topNav.clickOnCartButton();
+        topNav.clickOnMenuButton();
+
+        leftNav.clickOnMenuOption(0);
+        Assert.assertEquals(driver.getCurrentUrl(), baseUrl + "inventory.html",
+                "User should be redirected to inventory page.");
+
+    }
+
 
 
 
