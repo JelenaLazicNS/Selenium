@@ -107,6 +107,19 @@ public class SwagLabsTest extends BasicTest {
                 "User should be redirected to Cart page.");
 
     }
+    @Test
+    public void verifyTheTitlePage(){
+        login.clearAndTypeUsername(username);
+        login.clearAndTypePassword(password);
+        login.clickOnLoginButton();
+
+        inventory.clickOnAddToCartButton();
+        topNav.clickOnCartButton();
+
+        Assert.assertEquals(driver.getTitle(), "Swag Labs",
+                "Page title should be Swag Labs.");
+
+    }
 
 }
 
