@@ -149,6 +149,16 @@ public class SwagLabsTest extends BasicTest {
         topNav.clickOnCartButton();
         Assert.assertTrue(topNav.getMenuButton().isDisplayed(), "Hamburger menu button should be presented");
     }
+    @Test
+    public void verifyIfTheHamburgerMenuButtonIsEnabled(){
+        login.clearAndTypeUsername(username);
+        login.clearAndTypePassword(password);
+        login.clickOnLoginButton();
+
+        topNav.clickOnCartButton();
+        Assert.assertTrue(topNav.getMenuButton().isEnabled(), "Hamburger menu button should be enabled.");
+
+    }
 
 
 }
