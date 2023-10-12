@@ -190,6 +190,19 @@ public class SwagLabsTest extends BasicTest {
         Assert.assertTrue(driver.getCurrentUrl().equals("https://www.saucedemo.com/cart.html"),
                 "User should be redirected to cart page.");
     }
+    @Test
+    public void verifyIfTheCartIconHasCorrectNumberOfAddedItems(){
+        login.clearAndTypeUsername(username);
+        login.clearAndTypePassword(password);
+        login.clickOnLoginButton();
+
+        inventory.clickOnAddToCartButton();
+        topNav.clickOnCartButton();
+        Assert.assertEquals(topNav.getCartText(), "1",
+                "Number in the cart icon should be equivalent to the total number of added items");
+
+    }
+
 
 }
 
