@@ -363,6 +363,19 @@ public class SwagLabsTest extends BasicTest {
         Assert.assertTrue(driver.getCurrentUrl().contains("/inventory-item"),
                 "User should be redirected to item's page.");
     }
+    @Test
+    public void verifyIfTheRemoveButtonIsPresented(){
+        login.clearAndTypeUsername(username);
+        login.clearAndTypePassword(password);
+        login.clickOnLoginButton();
+
+        inventory.clickOnAddToCartButton();
+        topNav.clickOnCartButton();
+
+        Assert.assertTrue(itemList.getRemoveButton(0).isDisplayed(),
+                "Remove button should be visible.");
+    }
+
 
 
 
