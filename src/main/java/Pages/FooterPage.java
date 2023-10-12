@@ -21,6 +21,9 @@ public class FooterPage  extends BasicPage{
     public void clickOnSocial(int index){
         getSingleSocial(index).findElement(By.tagName("a")).click();
     }
+    public String getFooterCopyrightText(){
+        return driver.findElement(By.className("footer_copy")).getText();
+    }
 
 
 }
