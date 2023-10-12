@@ -21,11 +21,25 @@ public class TopNavMenuPage extends BasicPage {
         getMenuButton().click();
     }
 
-    public WebElement getCartBadge(){
+    public WebElement getCartBadge() {
         return driver.findElement(By.className("shopping_cart_badge"));
     }
 
-    public String getCartText(){
+    public String getCartText() {
         return getCartBadge().getText();
+    }
+
+    public void clickOnCartButton() {
+
+    }
+
+    public byte[] getHeaderTitle() {
+
+        return new byte[0];
+    }
+
+    public WebElement getCartLink() {
+
+        return null;
     }
 }

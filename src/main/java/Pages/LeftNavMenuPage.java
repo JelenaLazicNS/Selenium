@@ -29,4 +29,16 @@ public class LeftNavMenuPage extends  BasicPage {
         getLogoutLink().click();
     }
 
+    public int getNumberOfMenuOptions() {
+
+        return 0;
+    }
+
+    public void clickOnMenuOption(int i) {
+    }
+
+    public WebElement getEkisButton() {
+
+        return null;
+    }
 }

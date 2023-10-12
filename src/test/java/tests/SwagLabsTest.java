@@ -339,6 +339,17 @@ public class SwagLabsTest extends BasicTest {
                 .until(ExpectedConditions.textToBePresentInElement(itemList.getSingleItem(0),
                         itemList.getItemsQuantity(0)));
     }
+    @Test
+    public void verifyIfTheItemsTitleIsClickable(){
+        login.clearAndTypeUsername(username);
+        login.clearAndTypePassword(password);
+        login.clickOnLoginButton();
+
+        inventory.clickOnAddToCartButton();
+        topNav.clickOnCartButton();
+
+        itemList.clickOnItemTitle(0);
+    }
 
 
 
